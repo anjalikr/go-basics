@@ -1,4 +1,4 @@
-# for loop
-# if else
-# switch 
+for loop
+if else
+switch 
 
