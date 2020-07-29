@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 /* For Loop
 func main() {
@@ -194,7 +197,9 @@ defer f.Close()
 //Pointer
 //we use the & operator to find the address of a variable.
 //&x returns a *int (pointer to an int) because x is an int
-func main() {
+//new
+//Another way to get a pointer is to use the built-in new function
+/*func main() {
 	x := 0
 	zero(&x)
 	fmt.Println("Returned value from zero()", x)
@@ -208,7 +213,74 @@ func zero(ptr1 *int) {
 }
 func one(ptr2 *int) {
 	*ptr2 = 30
+}*/
+
+//Struct
+
+type Circle struct {
+	x, y, r float64
 }
 
-//new
-//Another way to get a pointer is to use the built-in new function
+func main() {
+	var circle1 Circle //Initilization
+	circle2 := new(Circle)
+	circle3 := Circle{x: 0, y: 0, r: 4}
+	circle4 := Circle{0, 0, 6}
+	fmt.Println(circle1.x, circle1.y, circle1.r)
+	fmt.Println(circle2.x, circle2.y, circle2.r)
+	fmt.Println(circle3.x, circle3.y, circle3.r)
+	fmt.Println(circle4.x, circle4.y, circle4.r)
+	fmt.Println("Area By Value:", circleAreaByValue(circle3))
+	fmt.Println("Area By Reference:", circleAreaByReference(&circle4))
+	fmt.Println("Area By Method:", circle3.circleAreaMethod())
+
+	//The is-a relationship works this way intuitively:
+	//People can talk, an android is a person, therefore an android can talk.
+	android1 := new(Android)
+	fmt.Println("Android:", android1)
+	android1.Person.Talk()
+
+}
+
+func circleAreaByValue(c Circle) float64 { // Call by value
+	return math.Pi * c.r * c.r
+}
+
+func circleAreaByReference(c *Circle) float64 {
+	return math.Pi * c.r * c.r
+}
+
+//Methods
+//In between the keyword func and the name of the function we've added a “receiver”.
+//The receiver is like a parameter – it has a name and a type – but by creating the
+//function in this way it allows us to call the function using the . operator
+//This is much easier to read, we no longer need the & operator
+//(Go automatically knows to pass a pointer to the circle for this method)
+
+func (c *Circle) circleAreaMethod() float64 {
+	return math.Pi * c.r * c.r
+}
+
+//Embedded Types
+//A struct's fields usually represent the has-a relationship.
+// For example a Circle has a radius
+
+type Person struct {
+	name string
+}
+
+func (p *Person) Talk() {
+	fmt.Println("My name is ", p.name)
+}
+
+//We use the type (Person) and don't give it a name.
+// When defined this way the Person struct can be accessed using the type name
+//Create new Android struct
+type Android struct {
+	Person
+	modell string
+}
+
+//Interface
+// we can use interface types as arguments to functions:
+//Interfaces can also be used as fields

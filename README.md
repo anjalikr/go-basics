@@ -11,6 +11,11 @@ Closure
 Defer Panic & Recover
 Pointer
 new keyword in pointer
+struct 
+methods - receiver
+Embedded Types
+Interfaces
+
 
 
 
