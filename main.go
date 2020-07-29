@@ -64,7 +64,7 @@ func main() {
 }*/
 
 //Slice
-func main() {
+/*func main() {
 	x := make([]float64, 5)
 	fmt.Println(x) //[ 0 0 0 0 0 ]
 
@@ -91,4 +91,102 @@ func main() {
 	copy(slice4, slice3) //[10 20 30] [10 20 30]
 	fmt.Println(slice3, slice4)
 
+}*/
+
+//Map
+/*func main() {
+	x := make(map[string]int)
+	x["sunday"] = 1
+	x["monday"] = 2
+	x["tuesday"] = 3
+	fmt.Println(x) //  map[monday:2 sunday:1 tuesday:3]
+	delete(x, "monday")
+	fmt.Println(x)                              // map[sunday:1 tuesday:3]
+	fmt.Println("key for monday:", x["monday"]) //key for monday: 0
+
+	//map can return two values instead of just one.
+	//The first value is the result of the lookup,
+	//the second tells us whether or not the lookup was successful.
+
+	//First we try to get the value from the map,
+	//then if it's successful we run the code inside of the block
+
+	if day, ok := x["monday"]; ok {
+		fmt.Println(day, ok) // will not display anyting
+	}
+	if day, ok := x["tuesday"]; ok {
+		fmt.Println(day, ok) //3 true
+	}
+
+}*/
+
+//Functions
+//We can also name the return type
+/*func main() {
+	x := f1()
+	fmt.Println("Returned value:", x)
+	y, z := f2()
+	fmt.Println("Multiple value:", y, z)
+	total := add(1, 2, 3)
+	fmt.Println("Addition of numbers:", total)
+	// we can also pass a slice
+	slice := []int{1, 2, 3}
+	totalSlice := add(slice...)
+	fmt.Println("Addition of elemrnts of slice", totalSlice)
+
+}
+func f1() (r int) {
+	r = 1
+	return
+}
+
+// Go is capable of returning multiple values from a function
+func f2() (int, int) {
+	return 4, 5
+}
+
+//Variadic functons
+//By using ... before the type name of the last parameter you can
+//indicate that it takes zero or more of those parameters.
+//In this case we take zero or more ints.
+
+func add(num ...int) int {
+	var total int = 0
+	for _, value := range num {
+		total += value
+	}
+	return total
+}*/
+
+//Closure
+//A function like this together with the non-local variables it references
+//is known as a closure. In this case increment and the variable x form the closure.
+
+/*func main() {
+	x := 0
+	increment := func() int {
+		x++
+		return x
+	}
+	fmt.Println("CLosure", increment())
+	fmt.Println("CLosure", increment())
+}*/
+
+//Defer Panic & Recover
+//defer which schedules a function call to be run after the function completes
+//it keeps our Close call near our Open call so it's easier to understand
+/*
+f, _ := os.Open(filename)
+defer f.Close()
+*/
+//recover stops the panic and returns the value that was passed to the call to panic
+//call to recover will never happen in the case of panic(if inside the main func) because the
+//call to panic immediately stops execution of the function.
+//Instead we have to pair it with defer:
+func main() {
+	defer func() {
+		str := recover()
+		fmt.Println(str)
+	}()
+	panic("PANIC")
 }
