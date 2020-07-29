@@ -183,10 +183,32 @@ defer f.Close()
 //call to recover will never happen in the case of panic(if inside the main func) because the
 //call to panic immediately stops execution of the function.
 //Instead we have to pair it with defer:
-func main() {
+/*func main() {
 	defer func() {
 		str := recover()
 		fmt.Println(str)
 	}()
 	panic("PANIC")
+}*/
+
+//Pointer
+//we use the & operator to find the address of a variable.
+//&x returns a *int (pointer to an int) because x is an int
+func main() {
+	x := 0
+	zero(&x)
+	fmt.Println("Returned value from zero()", x)
+	ptr2 := new(int)
+	one(ptr2)
+	fmt.Println("Returned value from one()", *ptr2)
+
 }
+func zero(ptr1 *int) {
+	*ptr1 = 25
+}
+func one(ptr2 *int) {
+	*ptr2 = 30
+}
+
+//new
+//Another way to get a pointer is to use the built-in new function

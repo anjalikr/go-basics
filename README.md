@@ -9,6 +9,9 @@ Functions
 Variadic functons
 Closure
 Defer Panic & Recover
+Pointer
+new keyword in pointer
+
 
 
 
