@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"time"
+
+	"example.com/hello/Introduction/math"
 )
 
 /* For Loop
@@ -353,7 +354,7 @@ func printer(c chan string) {
 }*/
 
 //Go has a special statement called select which works like a switch but for channels
-func main() {
+/*func main() {
 	c1 := make(chan string)
 	c2 := make(chan string)
 
@@ -383,4 +384,14 @@ func main() {
 	}()
 	var input string
 	fmt.Scanln(&input)
+}*/
+
+func main() {
+	arr := []float64{1, 2, 3}
+	avg := math.Average(arr)
+	fmt.Println("Average", avg)
+
 }
+
+//We also only use the short name math when we reference functions from our library.
+//If we wanted to use both libraries in the same program Go allows us to use an alias
