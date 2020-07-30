@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"math"
+	"time"
 )
 
 /* For Loop
@@ -217,7 +217,7 @@ func one(ptr2 *int) {
 
 //Struct
 
-type Circle struct {
+/*type Circle struct {
 	x, y, r float64
 }
 
@@ -283,4 +283,104 @@ type Android struct {
 
 //Interface
 // we can use interface types as arguments to functions:
-//Interfaces can also be used as fields
+//Interfaces can also be used as fields*/
+
+//Goroutine
+//A goroutine is a function that is capable of running concurrently with other functions.
+//Normally when we invoke a function our program will execute all the statements in a
+//function and then return to the next line following the invocation. With a goroutine
+//we return immediately to the next line and don't wait for the function to complete.
+
+/*func main() {
+	go f1()
+	for i := 0; i < 10; i++ {
+		go f1()
+	}
+	//This is why the call to the Scanln function has been included; without it the program
+	//would exit before being given the opportunity to print all the numbers.
+	var input string
+	fmt.Scanln(&input)
+
+}
+
+//prints out the numbers from 0 to 10, waiting between 0 and 250 ms after each one.
+//The goroutines should now run simultaneously.
+func f1() {
+	for i := 0; i < 10; i++ {
+		fmt.Println(" ", i)
+		amt := time.Duration(rand.Intn(250))
+		time.Sleep(time.Millisecond * amt)
+	}
+}*/
+
+//Channels
+//Channels provide a way for two goroutines to communicate with one another and
+//synchronize their execution.
+//The <- (left arrow) operator is used to send and receive messages on the channel.
+// c <- "ping" means send "ping". msg := <- c means receive a message and store it in msg
+//When pinger attempts to send a message on the channel it will wait until printer
+// is ready to receive the message. (this is known as blocking)
+
+/*func main() {
+
+	var c chan string = make(chan string)
+
+	go pinger(c)
+	go ponger(c)
+	go printer(c)
+	var input string
+	fmt.Scanln(&input)
+
+}
+
+func pinger(c chan string) {
+	for i := 0; ; i++ {
+		c <- "ping"
+	}
+}
+
+func ponger(c chan string) {
+	for i := 0; ; i++ {
+		c <- "pong"
+	}
+}
+func printer(c chan string) {
+	for {
+		msg := <-c
+		fmt.Println(msg)
+		time.Sleep(time.Second * 1)
+	}
+}*/
+
+//Go has a special statement called select which works like a switch but for channels
+func main() {
+	c1 := make(chan string)
+	c2 := make(chan string)
+
+	go func() {
+		for {
+			c1 <- "from 1"
+			time.Sleep(time.Second * 2)
+		}
+	}()
+
+	go func() {
+		for {
+			c2 <- "from 2"
+			time.Sleep(time.Second * 2)
+		}
+	}()
+
+	go func() {
+		for {
+			select {
+			case msg1 := <-c1:
+				fmt.Println(msg1)
+			case msg2 := <-c2:
+				fmt.Println(msg2)
+			}
+		}
+	}()
+	var input string
+	fmt.Scanln(&input)
+}

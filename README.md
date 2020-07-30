@@ -15,6 +15,10 @@ struct
 methods - receiver
 Embedded Types
 Interfaces
+goroutines
+channels 
+select 
+
 
 
 
