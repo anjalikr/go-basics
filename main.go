@@ -1,10 +1,6 @@
 package main
 
-import (
-	"fmt"
-
-	"example.com/hello/Introduction/math"
-)
+import "fmt"
 
 /* For Loop
 func main() {
@@ -386,12 +382,52 @@ func printer(c chan string) {
 	fmt.Scanln(&input)
 }*/
 
-func main() {
+/*func main() {
 	arr := []float64{1, 2, 3}
 	avg := math.Average(arr)
 	fmt.Println("Average", avg)
 
-}
+}*/
 
 //We also only use the short name math when we reference functions from our library.
 //If we wanted to use both libraries in the same program Go allows us to use an alias
+
+//Type composition embedde type and overriding methods of embedded type
+
+type Person struct {
+	name     string
+	age      int64
+	location string
+}
+
+func (p *Person) PrintName() {
+	fmt.Println("Name is", p.name)
+}
+
+func (p *Person) PrintDetails() {
+	fmt.Println("Name:", p.name)
+	fmt.Println("Age::", p.age)
+	fmt.Println("Location:", p.location)
+}
+
+type Admin struct {
+	Person //type embedding for composition
+	Roles  []string
+}
+
+//overridng methods of embedded type
+func (a *Admin) PrintDetails() {
+	a.Person.PrintDetails()
+	fmt.Println("Roles are")
+	for _, value := range a.Roles {
+		fmt.Println(value)
+	}
+}
+func main() {
+	ram := Admin{
+		Person{"Ram", 32, "Kochi"},
+		[]string{"Manage team", "Manage tasks", "Assign tasks"},
+	}
+	ram.PrintName()
+	ram.PrintDetails()
+}
