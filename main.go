@@ -1,6 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+	"sync"
+	"time"
+)
 
 /* For Loop
 func main() {
@@ -394,7 +399,7 @@ func printer(c chan string) {
 
 //Type composition embedde type and overriding methods of embedded type
 
-type Person struct {
+/*type Person struct {
 	name     string
 	age      int64
 	location string
@@ -430,4 +435,31 @@ func main() {
 	}
 	ram.PrintName()
 	ram.PrintDetails()
+}*/
+
+//WaitGroup
+//Because goroutines are treated as independent units that are running concurrently,
+//ensure that all goroutines are getting executed before the main program is terminated.
+//You can achieve this by using the WaitGroup type provided by the sync standard library package
+
+var wg sync.WaitGroup
+
+func main() {
+
+	wg.Add(2)
+	go printCount("A")
+	go printCount("B")
+	fmt.Println("Waiting To Finish")
+	wg.Wait()
+	fmt.Println("\nTerminating Program")
+
+}
+
+func printCount(char string) {
+	defer wg.Done()
+	for count := 1; count <= 10; count++ {
+		sleep := rand.Int63n(1000)
+		time.Sleep(time.Duration(sleep) * time.Millisecond)
+		fmt.Printf("Count %d : %s\n", count, char)
+	}
 }
