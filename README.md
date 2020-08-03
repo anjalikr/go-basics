@@ -21,6 +21,7 @@ select
 package
 Type composition embedde type and overriding methods of embedded type
 WaitGroup 
+Synchronization by WaitGroup - Program
 
 
 

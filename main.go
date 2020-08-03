@@ -2,9 +2,7 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
 	"sync"
-	"time"
 )
 
 /* For Loop
@@ -442,7 +440,7 @@ func main() {
 //ensure that all goroutines are getting executed before the main program is terminated.
 //You can achieve this by using the WaitGroup type provided by the sync standard library package
 
-var wg sync.WaitGroup
+/*var wg sync.WaitGroup
 
 func main() {
 
@@ -462,4 +460,39 @@ func printCount(char string) {
 		time.Sleep(time.Duration(sleep) * time.Millisecond)
 		fmt.Printf("Count %d : %s\n", count, char)
 	}
+}*/
+
+//Channel
+//Unbuffered Channel
+var wg sync.WaitGroup
+
+func main() {
+
+	wg.Add(2)
+	count := make(chan int)
+	go PrintCount("A", count)
+	go PrintCount("B", count)
+	count <- 1
+	wg.Wait()
+
+}
+
+func PrintCount(char string, count chan int) {
+	defer wg.Done()
+	for {
+		val, ok := <-count
+		if !ok {
+			fmt.Println("Channel was closed")
+			return
+		}
+		fmt.Printf("Count Received %d %s \n", val, char)
+		if val == 10 {
+			fmt.Printf("Channel Closed by %s\n", char)
+			close(count)
+			return
+		}
+		val++
+		count <- val
+	}
+
 }
